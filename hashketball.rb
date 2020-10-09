@@ -1,4 +1,4 @@
-# Write your code below game_hash
+require "pry"
 def game_hash
   {
     home: {
@@ -126,4 +126,114 @@ def game_hash
   }
 end
 
-# Write code here
+def num_points_scored(player_name)
+  game_hash.each do |place, team|
+    team.each do |attribute, data|
+      if attribute == :players
+        data.each do |player|
+          if player [:player_name] == player_name
+            return player[:points]
+          end
+        end
+      end
+    end
+  end
+end
+p num_points_scored("Jeff Adrien")
+
+def shoe_size(player_name)
+  game_hash.each do |place, team|
+    team.each do |attribute, data|
+      if attribute == :players
+        data.each do |player|
+          if player [:player_name] == player_name
+            return player[:shoe]
+            
+          end
+        end
+      end
+    end
+  end
+end
+p shoe_size("Jeff Adrien")
+
+def team_colors(name_of_team)
+  game_hash.each do |place, team|
+    if team[:team_name] == name_of_team
+      return team[:colors]
+    end
+  end
+end
+p team_colors("Brooklyn Nets")
+
+def team_names
+array2 = []
+  game_hash.each do |location, team_data|
+      team_data.each do |attribute, values|
+          if attribute == :team_name
+                array2.push(values)
+            end
+          end
+  end
+  return array2
+end
+
+# Build a method, player_numbers, that takes in an argument of a team name and returns an Array of the jersey numbers for that team.
+# def player_numbers(name_of_team)
+#   numbers_for_players = []
+#   game_hash.map do |place, team|
+#     numbers_for_players << team[:number]
+
+#   end
+# end
+# p player_numbers("Brooklyn Nets")
+
+def player_numbers(input)
+  output = []
+  game_hash.each do |team, team_info|
+    if team_info[:team_name] == input 
+      team_info.each do |key, value|
+        if key == :players
+          value.each do |player|
+          output.push(player[:number])
+          end
+        end
+      end
+    end
+  end
+  return output
+end
+
+
+def player_stats(input)
+  game_hash.each do |team, team_info|
+    team_info.each do |key, value|
+      if key == :players
+        value.each do |player|
+          if input == player[:player_name]
+            # binding.pry
+            return player
+          end
+        end
+      end
+    end
+  end
+end
+player_stats("Ben Gordon")
+
+def big_shoe_rebounds
+  big_shoe = 0
+  rebounds = 0
+  game_hash.each do |team, team_info|
+    team_info[:players].each do |player|
+      if player[:shoe] > big_shoe
+        big_shoe = player[:shoe]
+        rebounds = player[:rebounds]
+      end
+    end
+  end
+  return rebounds
+end
+
+
+
