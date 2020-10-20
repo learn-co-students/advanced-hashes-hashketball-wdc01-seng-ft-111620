@@ -1,5 +1,3 @@
-require 'pry'
-
 def game_hash
   {
     home: {
@@ -199,16 +197,11 @@ def big_shoe_rebounds
   rebounds = 0 
   game_hash.map do |key, value|
     value[:players].each do |key_2|
-      key_2.each do |key_3, value_3|
-        if key_2[:shoe] > shoe_size 
-          shoe_size = key_2[:shoe]
-        end
-        if key_2[:shoe] == shoe_size
-          rebounds = key_2[:rebounds]
-        end 
-      end
+      if key_2[:shoe] > shoe_size 
+        shoe_size = key_2[:shoe]
+        rebounds = key_2[:rebounds]
+      end 
     end
   end
   rebounds
-end 
-
+end
