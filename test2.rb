@@ -125,81 +125,66 @@ def game_hash
   }
 end
 
-# Helper Functions
+require 'pry'
 
-def team team_name
-  case team_name
-  when game_hash[:home][:team_name]
-    game_hash[:home]
-  when game_hash[:away][:team_name]
-    game_hash[:away]
-  end
-end 
-
-# Test Functions
-
-def num_points_scored(player_name)
-  game_hash.each do |key, value|
-    value[:players].each do |player|
-      if player[:player_name] == player_name
+def num_points_scored(player_search)
+  game_hash.each do |team, team_info|
+    team_info[:players].each do |player|
+      if player[:player_name] == player_search
         return player[:points]
       end
     end
   end
 end
 
-def shoe_size(player_name)
-  game_hash.each do |key, value|
-    value[:players].each do |player|
-      if player[:player_name] == player_name
+def shoe_size(name)
+  game_hash.each do |team, team_info|
+    team_info[:players].each do |player|
+      if player[:player_name] == name
         return player[:shoe]
       end
     end
   end
 end
 
-def team_colors(team_name)
-  team(team_name)[:colors]
+def team_colors(team_input)
+  if team_input.downcase == "charlotte hornets" 
+    return game_hash[:away][:colors]
+  else return game_hash[:home][:colors]
+  end
 end
-
 
 def team_names
-  names = Array.new
-  names.push(game_hash[:home][:team_name])
-  names.push(game_hash[:away][:team_name])
+  game_hash.map do |team, team_info|
+    team_info[:team_name]
+  end
 end
 
-def player_numbers(team_name)
-  numbers = Array.new
-  game_hash.each do |key, value|
-    if value[:team_name] == team_name 
-      value.each do |key, value|
+def player_numbers(input)
+  output = []
+  game_hash.each do |team, team_info|
+    if team_info[:team_name] == input 
+      team_info.each do |key, value|
         if key == :players
           value.each do |player|
-          numbers.push(player[:number])
+          output.push(player[:number])
           end
         end
       end
     end
   end
-  return numbers
+  return output
 end
 
-def player_stats(player_name)
-  game_hash.each do |key, value|
-    value[:players].each do |player|
-      if player[:player_name] == player_name
-        return player
-      end
-    end
-  end
+def player_stats(name)
+  all_players[name]
 end
 
 def big_shoe_rebounds
   big_shoe = 0
   rebounds = 0
-  game_hash.each do |key, value|
-    value[:players].each do |player|
+  game_hash.each do |team, team_info|
+    team_info[:players].each do |player|
       if player[:shoe] > big_shoe
         big_shoe = player[:shoe]
         rebounds = player[:rebounds]
